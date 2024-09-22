@@ -1,4 +1,4 @@
-## Use Case: Salesforce Account Management API
+# Use Case: Salesforce Account Management API
 
 # Scenario:
   You are tasked with creating a Spring Boot application that allows users to create, read, update, and delete (CRUD) 
@@ -41,8 +41,8 @@
      1)  This service will handle CRUD operations using the Salesforce REST API and the access token obtained from the authentication service.
 
 ## Running the Application:
-   Run the Spring Boot application on your local machine using command <br /> 
-   # mvn spring-boot:run
+   Run the Spring Boot application on your local machine using following command : <br /> 
+    mvn spring-boot:run
 # Use tools like Postman to test the APIs.
 ## Testing the API Endpoints:
      1) Create Account: POST /api/salesforce/accounts?name=TestAccount
