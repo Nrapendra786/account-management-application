@@ -1,5 +1,6 @@
-package com.nrapendra.account;
+package com.nrapendra.account.controllers;
 
+import com.nrapendra.account.services.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,27 +10,27 @@ import java.io.IOException;
 @RestController
 @RequestMapping(value="/api/salesforce/accounts")
 @RequiredArgsConstructor
-public class AccountController {
+public class AccountController extends OpenAPIController {
 
     private final AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<String> createAccount(@RequestParam String name) throws IOException {
+    public ResponseEntity<?> createAccount(@RequestParam String name) throws IOException {
         return ResponseEntity.ok(accountService.createAccount(name));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<String> getAccount(@PathVariable String id) throws IOException {
-        return ResponseEntity.ok(accountService.getAccountById(id));
+    public ResponseEntity<?> getAccount(@PathVariable String id) throws IOException {
+        return ResponseEntity.ok(accountService.findAccountById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateAccount(@PathVariable String id, @RequestParam String name) throws IOException {
+    public ResponseEntity<?> updateAccount(@PathVariable String id, @RequestParam String name) throws IOException {
         return ResponseEntity.ok(accountService.updateAccount(id, name));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAccount(@PathVariable String id) throws IOException {
+    public ResponseEntity<?> deleteAccount(@PathVariable String id) throws IOException {
         return ResponseEntity.ok(accountService.deleteAccount(id));
     }
 }

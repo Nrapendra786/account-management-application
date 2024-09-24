@@ -1,7 +1,8 @@
-package com.nrapendra.account;
+package com.nrapendra.account.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nrapendra.account.salesforce.SalesforceObject;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.apache.http.HttpResponse;
@@ -52,8 +53,6 @@ public class SalesforceAuthService {
         params.add(new BasicNameValuePair("client_secret", clientSecret));
         params.add(new BasicNameValuePair("username", username));
         params.add(new BasicNameValuePair("password", password + securityToken));
-
-        //+ securityToken
 
         post.setEntity(new UrlEncodedFormEntity(params));
         HttpResponse response = client.execute(post);

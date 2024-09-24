@@ -1,4 +1,4 @@
-package com.nrapendra.account;
+package com.nrapendra.account.model;
 
 import jakarta.persistence.*;
 
@@ -12,5 +12,4 @@ public class Account {
 
     @Column(name="account_name")
     private String name;
-
 }

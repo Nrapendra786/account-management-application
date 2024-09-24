@@ -51,3 +51,8 @@ Work is in Progress
      3) Update Account: PUT /api/salesforce/accounts/{id}?name=NewAccountName
      4) Delete Account: DELETE /api/salesforce/accounts/{id}
      5) This is a basic structure for integrating Salesforce with a Spring Boot application. You can expand it further to handle additional objects, handle pagination, add logging, and manage error handling.
+
+Please Note:
+use the following URL to view your account in salesforce : 
+https://[YOUR INSTANCE URL]/lightning/o/Account/list
+
