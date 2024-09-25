@@ -2,20 +2,22 @@ package com.nrapendra.account.salesforce;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nrapendra.account.models.Account;
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 import java.util.HashMap;
-
+import java.util.Map;
 import static com.nrapendra.account.utils.AppUtil.*;
 
 @Component
 public class SalesforceConnector {
 
-    public HttpRequestBase createAccount(SalesforceObject salesforceObject, String accountName) throws JsonProcessingException, UnsupportedEncodingException {
+    public HttpRequestBase createAccount(SalesforceObject salesforceObject, Account account) throws JsonProcessingException, UnsupportedEncodingException {
 
         String accessToken = salesforceObject.getAccessToken();
         String salesforceInstanceUrl = salesforceObject.getInstanceUrl();
@@ -27,7 +29,14 @@ public class SalesforceConnector {
 
         ObjectMapper objectMapper = new ObjectMapper();
         var accountData = new HashMap<>();
-        accountData.put(NAME, accountName);
+        accountData.put(NAME, account.getName());
+       // accountData.put("Account Number", account.getAccountNumber());
+
+      //  accountData.put("Employees", account.getNumberOfEmployee());
+        accountData.put("Industry", account.getIndustry());
+        accountData.put("BillingCity", account.getBillingCity());
+        accountData.put("Phone",account.getPhoneNumber());
+
         String json = objectMapper.writeValueAsString(accountData);
         post.setEntity(new StringEntity(json));
         return post;
@@ -75,6 +84,10 @@ public class SalesforceConnector {
         String json = objectMapper.writeValueAsString(accountData);
         patch.setEntity(new StringEntity(json));
         return patch;
+    }
+
+    private Map createAccount(){
+        return Collections.EMPTY_MAP;
     }
 }
 

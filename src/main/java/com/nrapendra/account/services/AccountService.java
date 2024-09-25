@@ -3,10 +3,11 @@ package com.nrapendra.account.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nrapendra.account.exceptions.BadRequestException;
-import com.nrapendra.account.exceptions.InternalServerError;
+import com.nrapendra.account.exceptions.AccountException;
+import com.nrapendra.account.models.Account;
 import com.nrapendra.account.salesforce.SalesforceConnector;
 import com.nrapendra.account.salesforce.SalesforceObject;
+import com.nrapendra.account.utils.ErrorMessages;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -15,6 +16,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -30,9 +32,9 @@ public class AccountService {
 
     private final SalesforceConnector salesforceConnector;
 
-    public String createAccount(String accountName) throws IOException {
+    public String createAccount(@RequestBody Account account) throws IOException {
         SalesforceObject salesforceObject = authService.getSalesforceObject();
-        var post = salesforceConnector.createAccount(salesforceObject,accountName);
+        var post = salesforceConnector.createAccount(salesforceObject, account);
 
         try (CloseableHttpClient client = HttpClients.createDefault();
              CloseableHttpResponse response = client.execute(post)) {
@@ -43,7 +45,7 @@ public class AccountService {
 
     public String findAccountById(String accountId) throws IOException {
         SalesforceObject salesforceObject = authService.getSalesforceObject();
-        var get = salesforceConnector.findAccountById(salesforceObject,accountId);
+        var get = salesforceConnector.findAccountById(salesforceObject, accountId);
 
         try (CloseableHttpClient client = HttpClients.createDefault();
              CloseableHttpResponse response = client.execute(get)) {
@@ -54,18 +56,18 @@ public class AccountService {
 
     public String updateAccount(String accountId, String newName) throws IOException {
         SalesforceObject salesforceObject = authService.getSalesforceObject();
-        var patch = salesforceConnector.updateAccount(salesforceObject,accountId,newName);
+        var patch = salesforceConnector.updateAccount(salesforceObject, accountId, newName);
 
         try (CloseableHttpClient client = HttpClients.createDefault();
              CloseableHttpResponse response = client.execute(patch)) {
-             checkResponseCode(response.getStatusLine().getStatusCode());
-             return responseMessage(accountId, response.getStatusLine().getStatusCode(), UPDATE_REQUEST + COLON + newName);
+            checkResponseCode(response.getStatusLine().getStatusCode());
+            return responseMessage(accountId, response.getStatusLine().getStatusCode(), UPDATE_REQUEST + COLON + newName);
         }
     }
 
     public String deleteAccount(String accountId) throws IOException {
         SalesforceObject salesforceObject = authService.getSalesforceObject();
-        var delete = salesforceConnector.deleteAccountById(salesforceObject,accountId);
+        var delete = salesforceConnector.deleteAccountById(salesforceObject, accountId);
 
         try (CloseableHttpClient client = HttpClients.createDefault();
              CloseableHttpResponse response = client.execute(delete)) {
@@ -74,11 +76,13 @@ public class AccountService {
         }
     }
 
-    private void checkResponseCode(int responseCode){
-        if(responseCode >= HttpStatus.BAD_REQUEST.value() && responseCode <= FOUR_NINETY_NINE	){
-            throw new BadRequestException();
-        } else if (responseCode >= HttpStatus.INTERNAL_SERVER_ERROR.value() && responseCode <= FIVE_NINETY_NINE){
-            throw new InternalServerError();
+    private void checkResponseCode(int responseCode) {
+        if (responseCode == NOT_FOUND) {
+            throw new AccountException(ErrorMessages.NOT_FOUND);
+        } else if (responseCode >= HttpStatus.BAD_REQUEST.value() && responseCode <= FOUR_NINETY_NINE) {
+            throw new AccountException(ErrorMessages.BAD_REQUEST);
+        } else if (responseCode >= HttpStatus.INTERNAL_SERVER_ERROR.value() && responseCode <= FIVE_NINETY_NINE) {
+            throw new AccountException(ErrorMessages.INTERNAL_SERVER);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.nrapendra.account.controllers;
 
+import com.nrapendra.account.models.Account;
 import com.nrapendra.account.services.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +16,8 @@ public class AccountController extends OpenAPIController {
     private final AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<?> createAccount(@RequestParam String name) throws IOException {
-        return ResponseEntity.ok(accountService.createAccount(name));
+    public ResponseEntity<?> createAccount(@RequestBody Account account) throws IOException {
+        return ResponseEntity.ok(accountService.createAccount(account));
     }
 
     @GetMapping("/{id}")

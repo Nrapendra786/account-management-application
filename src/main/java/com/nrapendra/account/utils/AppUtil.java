@@ -27,4 +27,7 @@ public class AppUtil {
     //Response Code
     public static final int FOUR_NINETY_NINE = 499;
     public static final int FIVE_NINETY_NINE = 599;
+    public static final int NOT_FOUND = 404;
+
+
 }

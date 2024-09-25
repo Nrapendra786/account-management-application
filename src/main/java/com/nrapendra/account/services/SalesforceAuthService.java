@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nrapendra.account.config.AppConfig;
 import com.nrapendra.account.salesforce.SalesforceObject;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -22,7 +23,7 @@ import java.util.List;
 import static com.nrapendra.account.utils.AppUtil.*;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SalesforceAuthService {
 
     private final AppConfig appConfig;
