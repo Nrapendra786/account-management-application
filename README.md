@@ -25,7 +25,7 @@ Work is in Progress
      2) Create a new Connected App and configure OAuth settings:
      3) Enable OAuth Settings.
      4) Add OAuth Scopes like api and refresh_token.
-     5) Set Callback URL to something like http://localhost:8080/oauth/callback (this is used in the authorization process).
+     5) Set Callback URL to something like http://[hostname]:[portnumber]/oauth/callback (this is used in the authorization process).
   2. Spring Boot Project Setup:
      1) Configure Run -> Edit Configuration -> Environment variable(set all fields(client_id,client_secret,username,password,grant_type) needed for salesforce authentication)
      2) Configure Run -> Edit Configuration -> Application -> set Application Name (normally main class)
