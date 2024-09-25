@@ -43,7 +43,7 @@ Work is in Progress
     Start Application only from Intellij but not from cmd using mvn spring-boot:run
 
 # API Testing
-    swagger-ui is integrated into project, once the application is started, then just type http://localhost:8080/swagger-ui/index.html on browser.
+    swagger-ui is integrated into project, once the application is started, then just type http://[hostname]:[portnumber]/swagger-ui/index.html on browser.
     user will be prompted for username/password, once user provided correct username and correct password then user will be forwarded  
     
 ## Testing the API Endpoints:
