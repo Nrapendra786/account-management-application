@@ -13,11 +13,11 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 import static com.nrapendra.account.utils.AppUtil.*;
 
@@ -75,16 +75,16 @@ public class AccountService {
     }
 
     private void checkResponseCode(int responseCode){
-        if(responseCode >= 400 && responseCode <=499){
+        if(responseCode >= HttpStatus.BAD_REQUEST.value() && responseCode <= FOUR_NINETY_NINE	){
             throw new BadRequestException();
-        } else if (responseCode >= 500 && responseCode <=599){
+        } else if (responseCode >= HttpStatus.INTERNAL_SERVER_ERROR.value() && responseCode <= FIVE_NINETY_NINE){
             throw new InternalServerError();
         }
     }
 
     private String responseMessage(String accountId, int statusCode, String message) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, String> map = new HashMap<>();
+        var objectMapper = new ObjectMapper();
+        var map = new HashMap<>();
         map.put(ID, accountId);
         map.put(MESSAGE, message);
         map.put(STATUS_CODE, String.valueOf(statusCode));

@@ -27,13 +27,11 @@ Work is in Progress
      4) Add OAuth Scopes like api and refresh_token.
      5) Set Callback URL to something like http://localhost:8080/oauth/callback (this is used in the authorization process).
   2. Spring Boot Project Setup:
-     1) Spring Web for building the REST API.
-     2) Spring Boot Starter Security for managing authentication.
-     3) Spring Boot Starter OAuth2 for OAuth 2.0 support.
-     4) Apache HttpClient to make HTTP requests to Salesforce.
+     1) Configure Run -> Edit Configuration -> Environment variable(set all fields(client_id,client_secret,username,password,grant_type) needed for salesforce authentication)
+     2) Configure Run -> Edit Configuration -> Application -> set Application Name (normally main class)
 
   3. Configuration for Salesforce OAuth 2.0:
-     1) Add your Salesforce Client ID, Client Secret, and other configuration details to your application.properties:
+     1) Add your Salesforce Client ID, Client Secret, and other configuration details to your environment variable:
 
   4. Salesforce OAuth 2.0 Authentication Service:
      1) Create a service that will authenticate with Salesforce using OAuth 2.0 and get the access token.
@@ -42,9 +40,12 @@ Work is in Progress
      1)  This service will handle CRUD operations using the Salesforce REST API and the access token obtained from the authentication service.
 
 ## Running the Application:
-   Run the Spring Boot application on your local machine using following command : <br /> 
-    mvn spring-boot:run
-# Use tools like Postman to test the APIs.
+    Start Application only from Intellij but not from cmd using mvn spring-boot:run
+
+# API Testing
+    swagger-ui is integrated into project, once the application is started, then just type http://localhost:8080/swagger-ui/index.html on browser.
+    user will be prompted for username/password, once user provided correct username and correct password then user will be forwarded  
+    
 ## Testing the API Endpoints:
      1) Create Account: POST /api/salesforce/accounts?name=TestAccount
      2) Get Account: GET /api/salesforce/accounts/{id}

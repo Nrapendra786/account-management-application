@@ -16,5 +16,15 @@ public class AppUtil {
 
     public static final String AUTHORIZATION = "Authorization";
     public static final String BEARER = "Bearer ";
+    public static final String ACCESS_TOKEN = "access_token";
+    public static final String INSTANCE_URL = "instance_url";
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
+    public static final String CLIENT_ID = "client_id";
+    public static final String CLIENT_SECRET = "client_secret";
+    public static final String GRANT_TYPE = "grant_type";
 
+    //Response Code
+    public static final int FOUR_NINETY_NINE = 499;
+    public static final int FIVE_NINETY_NINE = 599;
 }

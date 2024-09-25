@@ -1,4 +1,4 @@
-package com.nrapendra.account.model;
+package com.nrapendra.account.entities;
 
 import jakarta.persistence.*;
 
