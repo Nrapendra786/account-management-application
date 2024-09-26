@@ -39,8 +39,14 @@ Work is in Progress
   5. Salesforce Account Service (CRUD Operations):
      1)  This service will handle CRUD operations using the Salesforce REST API and the access token obtained from the authentication service.
 
-## Running the Application:
-    Start Application only from Intellij but not from cmd using mvn spring-boot:run
+## How to use:
+    1) Start Application only from Intellij after setting application in Intellij.
+    2) Once the application is started then user can try to access [hostname]:[portnumber]/swagger-ui/index.html.
+    3) User will be prompted to username/password page, After entering correct username and password,User will be redirected 
+       to swagger-ui/index.html, where user can see all REST Apis.
+    4) username: test and password :test
+
+
 
 # API Testing
     swagger-ui is integrated into project, once the application is started, then just type http://[hostname]:[portnumber]/swagger-ui/index.html on browser.

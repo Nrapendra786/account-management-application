@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static com.nrapendra.account.utils.AppUtil.SWAGGER_UI;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -23,7 +24,7 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/").permitAll()
                                 .requestMatchers(req -> req.getRequestURI()
-                                        .contains("swagger-ui")).permitAll()
+                                        .contains(SWAGGER_UI)).permitAll()
                                 .anyRequest().authenticated())
                 .httpBasic(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable);

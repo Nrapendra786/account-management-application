@@ -9,9 +9,10 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
 import static com.nrapendra.account.utils.AppUtil.*;
 
 @Component
@@ -28,14 +29,7 @@ public class SalesforceConnector {
         post.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        var accountData = new HashMap<>();
-        accountData.put(NAME, account.getName());
-       // accountData.put("Account Number", account.getAccountNumber());
-
-      //  accountData.put("Employees", account.getNumberOfEmployee());
-        accountData.put("Industry", account.getIndustry());
-        accountData.put("BillingCity", account.getBillingCity());
-        accountData.put("Phone",account.getPhoneNumber());
+        var accountData = createOrUpdateAccount(account);
 
         String json = objectMapper.writeValueAsString(accountData);
         post.setEntity(new StringEntity(json));
@@ -67,7 +61,7 @@ public class SalesforceConnector {
         return delete;
     }
 
-    public HttpRequestBase updateAccount(SalesforceObject salesforceObject,String accountId, String newName) throws UnsupportedEncodingException, JsonProcessingException {
+    public HttpRequestBase updateAccount(SalesforceObject salesforceObject,String accountId, Account account) throws UnsupportedEncodingException, JsonProcessingException {
         String accessToken = salesforceObject.getAccessToken();
         String salesforceInstanceUrl = salesforceObject.getInstanceUrl();
 
@@ -78,16 +72,37 @@ public class SalesforceConnector {
         patch.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        var accountData = new HashMap<>();
-        accountData.put(NAME, newName);
+        var accountData = createOrUpdateAccount(account);
 
         String json = objectMapper.writeValueAsString(accountData);
         patch.setEntity(new StringEntity(json));
         return patch;
     }
 
-    private Map createAccount(){
-        return Collections.EMPTY_MAP;
+    private Map<String,String> createOrUpdateAccount(Account account){
+
+        var accountData = new HashMap<String,String>();
+
+        if(isNotNullNorEmpty(account.getName()))
+           accountData.put(NAME, account.getName());
+
+        if(isNotNullNorEmpty(account.getAccountNumber()) )
+           accountData.put(ACCOUNT_NUMBER, account.getAccountNumber());
+
+        if(isNotNullNorEmpty(account.getIndustry()))
+           accountData.put(INDUSTRY, account.getIndustry());
+
+        if(isNotNullNorEmpty(account.getBillingCity()))
+           accountData.put(BILLING_CITY, account.getBillingCity());
+
+        if(isNotNullNorEmpty(account.getPhoneNumber()))
+           accountData.put(PHONE,account.getPhoneNumber());
+
+        return accountData;
+    }
+
+    private boolean isNotNullNorEmpty(String value) {
+        return Objects.nonNull(value)  &&  !value.isBlank();
     }
 }
 

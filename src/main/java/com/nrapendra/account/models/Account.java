@@ -1,13 +1,19 @@
 package com.nrapendra.account.models;
 
-import lombok.Data;
+import lombok.*;
 
 @Data
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Account {
+
     private String name;
     private String accountNumber;
     private String phoneNumber;
     private String industry;
     private String billingCity;
-    private int numberOfEmployee;
+    private String billingCountry;
 }

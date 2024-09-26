@@ -1,6 +1,5 @@
 package com.nrapendra.account.services;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nrapendra.account.exceptions.AccountException;
@@ -54,14 +53,14 @@ public class AccountService {
         }
     }
 
-    public String updateAccount(String accountId, String newName) throws IOException {
+    public String updateAccount(String accountId, Account account) throws IOException {
         SalesforceObject salesforceObject = authService.getSalesforceObject();
-        var patch = salesforceConnector.updateAccount(salesforceObject, accountId, newName);
+        var patch = salesforceConnector.updateAccount(salesforceObject, accountId, account);
 
         try (CloseableHttpClient client = HttpClients.createDefault();
              CloseableHttpResponse response = client.execute(patch)) {
             checkResponseCode(response.getStatusLine().getStatusCode());
-            return responseMessage(accountId, response.getStatusLine().getStatusCode(), UPDATE_REQUEST + COLON + newName);
+            return responseMessage(accountId, response.getStatusLine().getStatusCode(), UPDATE_REQUEST + COLON + account);
         }
     }
 
@@ -71,13 +70,14 @@ public class AccountService {
 
         try (CloseableHttpClient client = HttpClients.createDefault();
              CloseableHttpResponse response = client.execute(delete)) {
-            checkResponseCode(response.getStatusLine().getStatusCode());
+            int responseCode =response.getStatusLine().getStatusCode();
+            checkResponseCode(responseCode);
             return responseMessage(accountId, response.getStatusLine().getStatusCode(), DELETE_REQUEST);
         }
     }
 
     private void checkResponseCode(int responseCode) {
-        if (responseCode == NOT_FOUND) {
+        if (responseCode == HttpStatus.NOT_FOUND.value()) {
             throw new AccountException(ErrorMessages.NOT_FOUND);
         } else if (responseCode >= HttpStatus.BAD_REQUEST.value() && responseCode <= FOUR_NINETY_NINE) {
             throw new AccountException(ErrorMessages.BAD_REQUEST);
@@ -87,15 +87,15 @@ public class AccountService {
     }
 
     private String responseMessage(String accountId, int statusCode, String message) {
-        var objectMapper = new ObjectMapper();
         var map = new HashMap<>();
         map.put(ID, accountId);
         map.put(MESSAGE, message);
         map.put(STATUS_CODE, String.valueOf(statusCode));
 
         try {
-            return objectMapper.writeValueAsString(map);
+            return  new ObjectMapper().writeValueAsString(map);
         } catch (JsonProcessingException ex) {
+            log.error(ex.getMessage());
             throw new RuntimeException(ex.getMessage());
         }
     }
