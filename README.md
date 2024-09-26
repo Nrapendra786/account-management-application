@@ -1,4 +1,4 @@
-Work is in Progress
+
 # Use Case: Salesforce Account Management API
 
 # Scenario:
@@ -42,7 +42,7 @@ Work is in Progress
 ## Running the Application:
     Start Application only from Intellij but not from cmd using mvn spring-boot:run
 
-# API Testing
+## Swagger-ui:
     swagger-ui is integrated into project, once the application is started, then just type http://[hostname]:[portnumber]/swagger-ui/index.html on browser.
     user will be prompted for username/password, once user provided correct username and correct password then user will be forwarded  
     
