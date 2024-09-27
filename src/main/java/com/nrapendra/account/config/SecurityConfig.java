@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static com.nrapendra.account.utils.AppUtil.SWAGGER_UI;
+import static com.nrapendra.account.utils.AppUtil.*;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -40,9 +40,9 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        var user = User.withUsername("test")
-                .password("{noop}" + "test") // NoOpPasswordEncoder for demo purposes
-                .roles("TEST")
+        var user = User.withUsername(USERNAME_VALUE)
+                .password("{noop}" + PASSWORD_VALUE) // NoOpPasswordEncoder for demo purposes
+                .roles(ROLE)
                 .build();
         return new InMemoryUserDetailsManager(user);
     }

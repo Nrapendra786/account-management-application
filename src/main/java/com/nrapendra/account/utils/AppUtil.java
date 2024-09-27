@@ -3,7 +3,6 @@ package com.nrapendra.account.utils;
 public class AppUtil {
     public static final String UPDATE_REQUEST = "Update Request for";
     public static final String DELETE_REQUEST = "Delete Request ";
-    public static final String GET_REQUEST = "Get Request" ;
 
     public static final String SALESFORCE_ACCOUNT_URL="/services/data/v57.0/sobjects/Account/";
     public static final String COLON = ":";
@@ -28,6 +27,11 @@ public class AppUtil {
     public static final String CLIENT_SECRET = "client_secret";
     public static final String GRANT_TYPE = "grant_type";
     public static final String SWAGGER_UI = "swagger-ui";
+
+    //credentials
+    public static final String USERNAME_VALUE = "test";
+    public static final String PASSWORD_VALUE = "test";
+    public static final String ROLE = "test";
 
     //Response Code
     public static final int FOUR_NINETY_NINE = 499;

@@ -1,9 +1,13 @@
 package com.nrapendra;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nrapendra.account.models.Account;
 import com.nrapendra.account.services.AccountService;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,16 +22,20 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 
+import static com.nrapendra.TestUtil.ID;
+import static com.nrapendra.TestUtil.NAME;
+import static com.nrapendra.account.utils.AppUtil.MESSAGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //Please Note: This test will work only if user provide all necessary credentials required in application-test.yml
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = AccountApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource("classpath:application-test.yml")
+@TestPropertySource("classpath:application-test.properties") //Need to be changed to application-test.yml
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AccountControllerIntegrationTest {
 
@@ -60,11 +68,10 @@ public class AccountControllerIntegrationTest {
                 .queryParam("billingCountry", "CH")
                 .queryParam("industry", "Transportation");
 
-        ResponseEntity<String> postResponse = restTemplate.withBasicAuth(TestUtil.USERNAME,TestUtil.PASSWORD)
+        ResponseEntity<String> postResponse = restTemplate.withBasicAuth(TestUtil.USERNAME, TestUtil.PASSWORD)
                 .postForEntity(builder.toUriString(), account(), String.class);
 
-        var map = new ObjectMapper().readValue(postResponse.getBody(), Map.class);
-        ACCOUNT_ID = (String) map.get("id");
+        ACCOUNT_ID = (String) mapResponseToMap(postResponse.getBody()).get(ID);
         assertEquals(postResponse.getStatusCode(), HttpStatus.CREATED);
     }
 
@@ -74,20 +81,21 @@ public class AccountControllerIntegrationTest {
 
         ResponseEntity<String> getResponse =
                 restTemplate
-                        .withBasicAuth(TestUtil.USERNAME,TestUtil.PASSWORD)
+                        .withBasicAuth(TestUtil.USERNAME, TestUtil.PASSWORD)
                         .getForEntity(URI.create(getRootUrl() + ACCOUNT_ID), String.class);
         assertEquals(getResponse.getStatusCode(), HttpStatus.OK);
     }
 
     @Test
     @Order(3)
-    public void testUpdateAccount()  {
+    public void testUpdateAccount() throws JsonProcessingException {
         String url = getRootUrl() + "/" + ACCOUNT_ID;
 
         int randomNumber = new Random(100).nextInt(1, 100);
 
+        String newName = "test_new_name" + randomNumber;
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
-                .queryParam("name", "test_new_name" + randomNumber)
+                .queryParam("name", newName)
                 .queryParam("accountNumber", "91324435")
                 .queryParam("phoneNumber", "79776566")
                 .queryParam("billingCity", "ZH")
@@ -95,19 +103,22 @@ public class AccountControllerIntegrationTest {
                 .queryParam("industry", "Transportation");
 
         ResponseEntity<String> putResponse = restTemplate
-                .withBasicAuth(TestUtil.USERNAME,TestUtil.PASSWORD)
+                .withBasicAuth(TestUtil.USERNAME, TestUtil.PASSWORD)
                 .exchange(builder.toUriString(),
                         HttpMethod.PUT,
                         HttpEntity.EMPTY,
                         String.class);
 
-         assertEquals(putResponse.getStatusCode(), HttpStatus.OK);
+        assertEquals(putResponse.getStatusCode(), HttpStatus.OK);
+        LinkedHashMap<String,String> messageJson = (LinkedHashMap<String,String>)mapResponseToMap(putResponse.getBody()).get(MESSAGE);
+        String updatedName = messageJson.get(NAME);
+        assertEquals(updatedName, newName);
     }
 
     @Test
     @Order(4)
     public void testDeleteAccount() {
-        ResponseEntity<String> deleteResponse = restTemplate.withBasicAuth(TestUtil.USERNAME,TestUtil.PASSWORD)
+        ResponseEntity<String> deleteResponse = restTemplate.withBasicAuth(TestUtil.USERNAME, TestUtil.PASSWORD)
                 .exchange(URI.create(getRootUrl() + ACCOUNT_ID),
                         HttpMethod.DELETE,
                         HttpEntity.EMPTY,
@@ -123,6 +134,10 @@ public class AccountControllerIntegrationTest {
                 .billingCountry("CH")
                 .industry("Transportation")
                 .build();
+    }
+
+    private Map mapResponseToMap(String json) throws JsonProcessingException {
+        return new ObjectMapper().readValue(json, Map.class);
     }
 }
 

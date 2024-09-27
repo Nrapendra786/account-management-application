@@ -60,7 +60,7 @@ public class AccountService {
         try (CloseableHttpClient client = HttpClients.createDefault();
              CloseableHttpResponse response = client.execute(patch)) {
             checkResponseCode(response.getStatusLine().getStatusCode());
-            return responseMessage(accountId, response.getStatusLine().getStatusCode(), UPDATE_REQUEST + COLON + account);
+            return responseMessage(accountId, response.getStatusLine().getStatusCode(), account);
         }
     }
 
@@ -86,7 +86,7 @@ public class AccountService {
         }
     }
 
-    private String responseMessage(String accountId, int statusCode, String message) {
+    private String responseMessage(String accountId, int statusCode, Object message) {
         var map = new HashMap<>();
         map.put(ID, accountId);
         map.put(MESSAGE, message);
