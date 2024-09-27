@@ -60,7 +60,7 @@ public class AccountControllerIntegrationTest {
                 .queryParam("billingCountry", "CH")
                 .queryParam("industry", "Transportation");
 
-        ResponseEntity<String> postResponse = restTemplate.withBasicAuth("test", "test")
+        ResponseEntity<String> postResponse = restTemplate.withBasicAuth(USERNAME,PASSWORD)
                 .postForEntity(builder.toUriString(), account(), String.class);
 
         var map = new ObjectMapper().readValue(postResponse.getBody(), Map.class);
@@ -74,7 +74,7 @@ public class AccountControllerIntegrationTest {
 
         ResponseEntity<String> getResponse =
                 restTemplate
-                        .withBasicAuth("test", "test")
+                        .withBasicAuth(USERNAME,PASSWORD)
                         .getForEntity(URI.create(getRootUrl() + ACCOUNT_ID), String.class);
         assertEquals(getResponse.getStatusCode(), HttpStatus.OK);
     }
@@ -95,7 +95,7 @@ public class AccountControllerIntegrationTest {
                 .queryParam("industry", "Transportation");
 
         ResponseEntity<String> putResponse = restTemplate
-                .withBasicAuth("test", "test")
+                .withBasicAuth(USERNAME,PASSWORD)
                 .exchange(builder.toUriString(),
                         HttpMethod.PUT,
                         HttpEntity.EMPTY,
@@ -107,8 +107,8 @@ public class AccountControllerIntegrationTest {
     @Test
     @Order(4)
     public void testDeleteAccount() throws Exception {
-        ResponseEntity<String> deleteResponse = restTemplate.withBasicAuth("test", "test").
-                exchange(URI.create(getRootUrl() + ACCOUNT_ID),
+        ResponseEntity<String> deleteResponse = restTemplate.withBasicAuth(USERNAME,PASSWORD)
+                .exchange(URI.create(getRootUrl() + ACCOUNT_ID),
                         HttpMethod.DELETE,
                         HttpEntity.EMPTY,
                         String.class);
