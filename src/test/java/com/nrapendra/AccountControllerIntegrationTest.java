@@ -17,6 +17,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.nrapendra.TestUtil;
 import java.net.URI;
 import java.util.Map;
 import java.util.Random;
