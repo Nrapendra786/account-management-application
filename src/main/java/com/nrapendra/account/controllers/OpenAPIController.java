@@ -22,12 +22,13 @@ public abstract class OpenAPIController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = { @Content(schema = @Schema(),mediaType = "application/json") })
     })
     @Operation(summary = "CREATE ACCOUNT")
-    public abstract ResponseEntity<?> createAccount(@RequestParam("name") String name,
-                                                    @RequestParam("accountNumber") String accountNumber,
+    public abstract ResponseEntity<?> createAccount(@RequestParam("name") String name
+            , @RequestParam("accountNumber") String accountNumber,
                                                     @RequestParam("phoneNumber") String phoneNumber,
                                                     @RequestParam("billingCity") String billingCity,
                                                     @RequestParam("billingCountry") String billingCountry,
-                                                    @RequestParam("industry") String industry) throws IOException;
+                                                    @RequestParam("industry") String industry
+    ) throws IOException;
 
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = { @Content( mediaType = "application/json") }),

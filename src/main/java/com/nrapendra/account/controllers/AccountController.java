@@ -27,10 +27,12 @@ public class AccountController extends OpenAPIController {
                                             @RequestParam("phoneNumber") String phoneNumber,
                                             @RequestParam("billingCity") String billingCity,
                                             @RequestParam("billingCountry") String billingCountry,
-                                            @RequestParam("industry") String industry) throws IOException {
+                                            @RequestParam("industry") String industry
+                                           ) throws IOException {
         var account = Account.builder()
                 .name(name)
-                .industry(industry)
+                .accountNumber(accountNumber)
+                .industry(phoneNumber)
                 .phoneNumber(phoneNumber)
                 .billingCity(billingCity)
                 .billingCountry(billingCountry)
