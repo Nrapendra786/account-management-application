@@ -17,7 +17,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.nrapendra.TestUtil.*;
 import java.net.URI;
 import java.util.Map;
 import java.util.Random;
@@ -61,7 +60,7 @@ public class AccountControllerIntegrationTest {
                 .queryParam("billingCountry", "CH")
                 .queryParam("industry", "Transportation");
 
-        ResponseEntity<String> postResponse = restTemplate.withBasicAuth(USERNAME,PASSWORD)
+        ResponseEntity<String> postResponse = restTemplate.withBasicAuth(TestUtil.USERNAME,TestUtil.PASSWORD)
                 .postForEntity(builder.toUriString(), account(), String.class);
 
         var map = new ObjectMapper().readValue(postResponse.getBody(), Map.class);
@@ -71,18 +70,18 @@ public class AccountControllerIntegrationTest {
 
     @Test
     @Order(2)
-    public void testFindAccountById() throws Exception {
+    public void testFindAccountById() {
 
         ResponseEntity<String> getResponse =
                 restTemplate
-                        .withBasicAuth(USERNAME,PASSWORD)
+                        .withBasicAuth(TestUtil.USERNAME,TestUtil.PASSWORD)
                         .getForEntity(URI.create(getRootUrl() + ACCOUNT_ID), String.class);
         assertEquals(getResponse.getStatusCode(), HttpStatus.OK);
     }
 
     @Test
     @Order(3)
-    public void testUpdateAccount() throws Exception {
+    public void testUpdateAccount()  {
         String url = getRootUrl() + "/" + ACCOUNT_ID;
 
         int randomNumber = new Random(100).nextInt(1, 100);
@@ -96,7 +95,7 @@ public class AccountControllerIntegrationTest {
                 .queryParam("industry", "Transportation");
 
         ResponseEntity<String> putResponse = restTemplate
-                .withBasicAuth(USERNAME,PASSWORD)
+                .withBasicAuth(TestUtil.USERNAME,TestUtil.PASSWORD)
                 .exchange(builder.toUriString(),
                         HttpMethod.PUT,
                         HttpEntity.EMPTY,
@@ -107,8 +106,8 @@ public class AccountControllerIntegrationTest {
 
     @Test
     @Order(4)
-    public void testDeleteAccount() throws Exception {
-        ResponseEntity<String> deleteResponse = restTemplate.withBasicAuth(USERNAME,PASSWORD)
+    public void testDeleteAccount() {
+        ResponseEntity<String> deleteResponse = restTemplate.withBasicAuth(TestUtil.USERNAME,TestUtil.PASSWORD)
                 .exchange(URI.create(getRootUrl() + ACCOUNT_ID),
                         HttpMethod.DELETE,
                         HttpEntity.EMPTY,
