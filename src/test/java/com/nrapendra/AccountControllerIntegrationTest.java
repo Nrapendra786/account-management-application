@@ -3,7 +3,8 @@ package com.nrapendra;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nrapendra.account.models.Account;
-import com.nrapendra.account.services.AccountService;
+import com.nrapendra.account.services.AccountLocalDBService;
+import com.nrapendra.account.services.AccountSalesforceService;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -46,7 +47,10 @@ public class AccountControllerIntegrationTest {
     private TestRestTemplate restTemplate;
 
     @Autowired
-    private AccountService accountService;
+    private AccountSalesforceService accountService;
+
+    @Autowired
+    private AccountLocalDBService accountLocalDBService;
 
     private String getRootUrl() {
         return "http://localhost:" + port + "/api/salesforce/accounts/";
@@ -78,7 +82,6 @@ public class AccountControllerIntegrationTest {
     @Test
     @Order(2)
     public void testFindAccountById() {
-
         ResponseEntity<String> getResponse =
                 restTemplate
                         .withBasicAuth(TestUtil.USERNAME, TestUtil.PASSWORD)
@@ -139,5 +142,8 @@ public class AccountControllerIntegrationTest {
     private Map mapResponseToMap(String json) throws JsonProcessingException {
         return new ObjectMapper().readValue(json, Map.class);
     }
+
+
+
 }
 

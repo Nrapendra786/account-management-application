@@ -3,7 +3,8 @@ package com.nrapendra;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nrapendra.account.controllers.AccountController;
 import com.nrapendra.account.models.Account;
-import com.nrapendra.account.services.AccountService;
+import com.nrapendra.account.services.AccountLocalDBService;
+import com.nrapendra.account.services.AccountSalesforceService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.TransactionManager;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -27,10 +29,16 @@ public class AccountControllerMockMvcTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private AccountService accountService;
+    private AccountSalesforceService accountService;
 
     @MockBean
     private UserDetailsService userDetailsService;
+
+    @MockBean
+    private AccountLocalDBService accountLocalDBService;
+
+  //  @MockBean
+  //  private TransactionManager transactionManager;
 
     private static final String ACCOUNT_URL = "/api/salesforce/accounts";
 
@@ -112,7 +120,7 @@ public class AccountControllerMockMvcTest {
     public void testDeleteAccount() throws Exception {
 
         //when
-        when(accountService.findAccountById("1")).thenReturn(asJsonString(account()));
+        when(accountService.deleteAccount("1")).thenReturn(asJsonString(account()));
 
         //then
         mockMvc.perform(MockMvcRequestBuilders

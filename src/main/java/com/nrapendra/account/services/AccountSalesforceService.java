@@ -25,7 +25,7 @@ import static com.nrapendra.account.utils.AppUtil.*;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AccountService {
+public class AccountSalesforceService {
 
     private final SalesforceAuthService authService;
 
