@@ -37,9 +37,6 @@ public class AccountControllerMockMvcTest {
     @MockBean
     private AccountLocalDBService accountLocalDBService;
 
-  //  @MockBean
-  //  private TransactionManager transactionManager;
-
     private static final String ACCOUNT_URL = "/api/salesforce/accounts";
 
     @Test
