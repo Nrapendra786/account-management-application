@@ -69,8 +69,7 @@ public class AccountControllerMockMvcTest {
 
         //given
         var account = account();
-        account.setBillingCity("Basel");
-        account.setAccountNumber("QWER98765");
+        account.setName("TEST_NAME");
 
         //when
         when(accountService.updateAccount(any(), any())).thenReturn(asJsonString(account));
@@ -79,17 +78,16 @@ public class AccountControllerMockMvcTest {
         mockMvc.perform(MockMvcRequestBuilders
                         .put(ACCOUNT_URL + "/{id}", 1)
                         .param("name", "test")
-                        .param("accountNumber", "1324435")
-                        .param("phoneNumber", "89776566")
-                        .param("billingCity", "ZH")
-                        .param("billingCountry", "CH")
-                        .param("industry", "Transportation")
+//                        .param("accountNumber", "1324435")
+//                        .param("phoneNumber", "89776566")
+//                        .param("billingCity", "ZH")
+//                        .param("billingCountry", "CH")
+//                        .param("industry", "Transportation")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(jsonPath("$.billingCity").value("Basel"))
-                .andExpect(jsonPath("$.accountNumber").value("QWER98765"));
+                .andExpect(jsonPath("$.name").value("TEST_NAME"));
     }
 
     @Test

@@ -71,20 +71,9 @@ public class AccountController extends OpenAPIController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAccount(@PathVariable String id,
-                                           @RequestParam("name") String name,
-                                           @RequestParam("accountNumber") String accountNumber,
-                                           @RequestParam("phoneNumber") String phoneNumber,
-                                           @RequestParam("billingCity") String billingCity,
-                                           @RequestParam("billingCountry") String billingCountry,
-                                           @RequestParam("industry") String industry) throws IOException {
-        var account = Account.builder()
-                .accountNumber(accountNumber)
-                .billingCity(billingCity)
-                .billingCountry(billingCountry)
-                .phoneNumber(phoneNumber)
-                .name(name)
-                .industry(industry).build();
-
+                                           @RequestParam("name") String name
+    ) throws IOException {
+        var account = Account.builder().name(name).build();
         var response = accountService.updateAccount(id, account);
         var httpStatus = HttpStatus.OK;
         long positiveUniqueUUID = Math.abs(UUID.randomUUID().getLeastSignificantBits());

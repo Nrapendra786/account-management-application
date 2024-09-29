@@ -45,12 +45,7 @@ public abstract class OpenAPIController {
     })
     @Operation(summary = "UPDATE ACCOUNT")
     public abstract ResponseEntity<?> updateAccount(@PathVariable String id,
-                                                    @RequestParam("name") String name,
-                                                    @RequestParam("accountNumber") String accountNumber,
-                                                    @RequestParam("phoneNumber") String phoneNumber,
-                                                    @RequestParam("billingCity") String billingCity,
-                                                    @RequestParam("billingCountry") String billingCountry,
-                                                    @RequestParam("industry") String industry) throws IOException;
+                                                    @RequestParam("name") String name) throws IOException;
 
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = { @Content( mediaType = "application/json") }),

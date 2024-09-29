@@ -1,3 +1,6 @@
+# Please Note : Create an account in salesforce.com and provide your salesforce username, salesforce password, salesforce client_id,
+# salesforce client_secret and salesforce security token to run integration test using mvn clean verify or directly from Intellij.
+
 # salesforce configuration
 salesforce:
   username: [ YOUR_SALESFORCE_USERNAME ]
@@ -7,8 +10,7 @@ salesforce:
   securityToken: [ YOUR_SALESFORCE_SECURITY_TOKEN ]
   tokenUrl: https://login.salesforce.com/services/oauth2/token
 
-
-  # H2 Database Configuration
+# h2 database Configuration
   spring:
     datasource:
       driver-class-name: org.h2.Driver

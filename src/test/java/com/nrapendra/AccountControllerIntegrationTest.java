@@ -98,12 +98,7 @@ public class AccountControllerIntegrationTest {
 
         String newName = "test_new_name" + randomNumber;
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
-                .queryParam("name", newName)
-                .queryParam("accountNumber", "91324435")
-                .queryParam("phoneNumber", "79776566")
-                .queryParam("billingCity", "ZH")
-                .queryParam("billingCountry", "CH")
-                .queryParam("industry", "Transportation");
+                .queryParam("name", newName);
 
         ResponseEntity<String> putResponse = restTemplate
                 .withBasicAuth(TestUtil.USERNAME, TestUtil.PASSWORD)
