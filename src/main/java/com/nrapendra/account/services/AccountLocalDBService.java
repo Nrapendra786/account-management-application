@@ -1,7 +1,7 @@
 package com.nrapendra.account.services;
 
-import com.nrapendra.localdb.ApplicationData;
-import com.nrapendra.localdb.ApplicationDataRepository;
+import com.nrapendra.applicationdata.ApplicationData;
+import com.nrapendra.applicationdata.ApplicationDataRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

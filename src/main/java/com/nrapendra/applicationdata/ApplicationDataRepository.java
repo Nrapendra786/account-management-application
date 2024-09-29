@@ -1,4 +1,4 @@
-package com.nrapendra.localdb;
+package com.nrapendra.applicationdata;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

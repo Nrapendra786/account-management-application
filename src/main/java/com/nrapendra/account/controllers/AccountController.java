@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nrapendra.account.models.Account;
 import com.nrapendra.account.services.AccountLocalDBService;
 import com.nrapendra.account.services.AccountSalesforceService;
-import com.nrapendra.localdb.ApplicationData;
+import com.nrapendra.applicationdata.ApplicationData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,6 @@ import java.util.UUID;
  * TODO validation of input Data
  */
 
-
-//@Transactional
 @RestController
 @RequestMapping(value = "/api/salesforce/accounts")
 @RequiredArgsConstructor

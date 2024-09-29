@@ -1,4 +1,4 @@
-package com.nrapendra.localdb;
+package com.nrapendra.applicationdata;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import jakarta.persistence.*;
