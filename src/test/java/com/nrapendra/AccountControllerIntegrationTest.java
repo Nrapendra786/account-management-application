@@ -85,7 +85,7 @@ public class AccountControllerIntegrationTest {
     @Test
     @Order(2)
     public void testFindAccountById() throws JsonProcessingException {
-        log.info("testFindAccountById is Invoked and ACCOUNT_ID is : {}", ACCOUNT_ID);
+        log.debug("testFindAccountById is Invoked and ACCOUNT_ID is : {}", ACCOUNT_ID);
         ResponseEntity<String> getResponse =
                 restTemplate
                         .withBasicAuth(TestUtil.USERNAME, TestUtil.PASSWORD)
@@ -99,7 +99,7 @@ public class AccountControllerIntegrationTest {
     @Test
     @Order(3)
     public void testFindAccountByName() {
-        log.info("testFindAccountByName is Invoked and ACCOUNT_ID is : " + ACCOUNT_ID);
+        log.debug("testFindAccountByName is Invoked and NAME is : {} ", NAME);
         ResponseEntity<String> getResponse =
                 restTemplate
                         .withBasicAuth(TestUtil.USERNAME, TestUtil.PASSWORD)
@@ -110,7 +110,7 @@ public class AccountControllerIntegrationTest {
     @Test
     @Order(4)
     public void testUpdateAccount() throws JsonProcessingException {
-
+        log.debug("testUpdateAccount is Invoked and ACCOUNT_ID is : {} ", ACCOUNT_ID);
         String url = getRootUrl() + ACCOUNT_ID;
 
         int randomNumber = new Random(100).nextInt(1, 100);
@@ -137,7 +137,7 @@ public class AccountControllerIntegrationTest {
     @Test
     @Order(5)
     public void testDeleteAccount() {
-
+        log.debug("testDeleteAccount is Invoked and ACCOUNT_ID is : {} ", ACCOUNT_ID);
         ResponseEntity<String> deleteResponse = restTemplate.withBasicAuth(TestUtil.USERNAME, TestUtil.PASSWORD)
                 .exchange(URI.create(getRootUrl() + ACCOUNT_ID),
                         HttpMethod.DELETE,
