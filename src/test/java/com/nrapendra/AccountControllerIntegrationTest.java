@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nrapendra.account.models.Account;
 import com.nrapendra.account.services.AccountLocalDBService;
 import com.nrapendra.account.services.AccountSalesforceService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -27,8 +28,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 
-import static com.nrapendra.TestUtil.ID;
-import static com.nrapendra.TestUtil.NAME;
 import static com.nrapendra.account.utils.AppUtil.MESSAGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -38,7 +37,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:application-test.properties") //Need to be changed to application-test.yml
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Slf4j
 public class AccountControllerIntegrationTest {
+
+    private static String NAME="name";
+    private static String ACCOUNT_ID = "";
 
     @LocalServerPort
     private int port;
@@ -53,10 +56,8 @@ public class AccountControllerIntegrationTest {
     private AccountLocalDBService accountLocalDBService;
 
     private String getRootUrl() {
-        return "http://localhost:" + port + "/api/salesforce/accounts/";
+        return "http://localhost:" + port + "/api/v1/accounts/";
     }
-
-    private static String ACCOUNT_ID = "";
 
     @Test
     @Order(1)
@@ -75,24 +76,42 @@ public class AccountControllerIntegrationTest {
         ResponseEntity<String> postResponse = restTemplate.withBasicAuth(TestUtil.USERNAME, TestUtil.PASSWORD)
                 .postForEntity(builder.toUriString(), account(), String.class);
 
-        ACCOUNT_ID = (String) mapResponseToMap(postResponse.getBody()).get(ID);
+        Map<?,?> map = mapResponseToMap(postResponse.getBody());
+        ACCOUNT_ID = (String) map.get("id");
+
         assertEquals(postResponse.getStatusCode(), HttpStatus.CREATED);
     }
 
     @Test
     @Order(2)
-    public void testFindAccountById() {
+    public void testFindAccountById() throws JsonProcessingException {
+        log.info("testFindAccountById is Invoked and ACCOUNT_ID is : {}", ACCOUNT_ID);
         ResponseEntity<String> getResponse =
                 restTemplate
                         .withBasicAuth(TestUtil.USERNAME, TestUtil.PASSWORD)
                         .getForEntity(URI.create(getRootUrl() + ACCOUNT_ID), String.class);
+
+        Map<?,?> map = mapResponseToMap(getResponse.getBody());
+        NAME=(String) map.get(NAME);
         assertEquals(getResponse.getStatusCode(), HttpStatus.OK);
     }
 
     @Test
     @Order(3)
+    public void testFindAccountByName() {
+        log.info("testFindAccountByName is Invoked and ACCOUNT_ID is : " + ACCOUNT_ID);
+        ResponseEntity<String> getResponse =
+                restTemplate
+                        .withBasicAuth(TestUtil.USERNAME, TestUtil.PASSWORD)
+                        .getForEntity(URI.create(getRootUrl() +"parameter/" + NAME), String.class);
+        assertEquals(getResponse.getStatusCode(), HttpStatus.OK);
+    }
+
+    @Test
+    @Order(4)
     public void testUpdateAccount() throws JsonProcessingException {
-        String url = getRootUrl() + "/" + ACCOUNT_ID;
+
+        String url = getRootUrl() + ACCOUNT_ID;
 
         int randomNumber = new Random(100).nextInt(1, 100);
 
@@ -108,19 +127,23 @@ public class AccountControllerIntegrationTest {
                         String.class);
 
         assertEquals(putResponse.getStatusCode(), HttpStatus.OK);
+
         LinkedHashMap<String,String> messageJson = (LinkedHashMap<String,String>)mapResponseToMap(putResponse.getBody()).get(MESSAGE);
-        String updatedName = messageJson.get(NAME);
-        assertEquals(updatedName, newName);
+
+        var expectedValue = messageJson.get("name");
+        assertEquals(expectedValue, newName);
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     public void testDeleteAccount() {
+
         ResponseEntity<String> deleteResponse = restTemplate.withBasicAuth(TestUtil.USERNAME, TestUtil.PASSWORD)
                 .exchange(URI.create(getRootUrl() + ACCOUNT_ID),
                         HttpMethod.DELETE,
                         HttpEntity.EMPTY,
                         String.class);
+
         assertEquals(deleteResponse.getStatusCode(), HttpStatus.ACCEPTED);
     }
 
@@ -137,8 +160,5 @@ public class AccountControllerIntegrationTest {
     private Map mapResponseToMap(String json) throws JsonProcessingException {
         return new ObjectMapper().readValue(json, Map.class);
     }
-
-
-
 }
 

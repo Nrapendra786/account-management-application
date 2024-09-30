@@ -17,7 +17,7 @@ import java.io.IOException;
 public abstract class OpenAPIController {
 
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content( mediaType = "application/json") }),
+            @ApiResponse(responseCode = "200",description = "Successful",  content = { @Content( mediaType = "application/json") }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = { @Content(schema = @Schema(),mediaType = "application/json") }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = { @Content(schema = @Schema(),mediaType = "application/json") })
     })
@@ -31,7 +31,7 @@ public abstract class OpenAPIController {
     ) throws IOException;
 
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content( mediaType = "application/json") }),
+            @ApiResponse(responseCode = "200", description = "Successful", content = { @Content( mediaType = "application/json") }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = { @Content(schema = @Schema(),mediaType = "application/json") }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = { @Content(schema = @Schema(),mediaType = "application/json") })
     })
@@ -39,7 +39,7 @@ public abstract class OpenAPIController {
     public abstract ResponseEntity<?> getAccount(@PathVariable String id) throws IOException;
 
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content( mediaType = "application/json") }),
+            @ApiResponse(responseCode = "200", description = "Successful", content = { @Content( mediaType = "application/json") }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = { @Content(schema = @Schema(),mediaType = "application/json") }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = { @Content(schema = @Schema(),mediaType = "application/json") })
     })
@@ -48,10 +48,21 @@ public abstract class OpenAPIController {
                                                     @RequestParam("name") String name) throws IOException;
 
     @ApiResponses({
-            @ApiResponse(responseCode = "200", content = { @Content( mediaType = "application/json") }),
+            @ApiResponse(responseCode = "200", description = "Successful", content = { @Content( mediaType = "application/json") }),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = { @Content(schema = @Schema(),mediaType = "application/json") }),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = { @Content(schema = @Schema(),mediaType = "application/json") })
     })
     @Operation(summary = "DELETE ACCOUNT")
     public abstract ResponseEntity<?> deleteAccount(@PathVariable String id) throws IOException;
+
+
+
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successful",content = { @Content( mediaType = "application/json") }),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = { @Content(schema = @Schema(),mediaType = "application/json") }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = { @Content(schema = @Schema(),mediaType = "application/json") })
+    })
+    @Operation(summary = "GET ACCOUNT BY NAME")
+    public abstract ResponseEntity<?> findAccountByName(@PathVariable String id) throws IOException;
+
 }

@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -26,10 +28,10 @@ public class SalesforceConnector {
         String url = salesforceInstanceUrl + SALESFORCE_ACCOUNT_URL;
         HttpPost post = new HttpPost(url);
         post.setHeader(AUTHORIZATION, BEARER + accessToken);
-        post.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+        post.setHeader(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        var accountData = createOrUpdateAccount(account);
+        var accountData = createAccount(account);
 
         String json = objectMapper.writeValueAsString(accountData);
         post.setEntity(new StringEntity(json));
@@ -45,7 +47,20 @@ public class SalesforceConnector {
 
         HttpGet get = new HttpGet(url + "/" + accountId);
         get.setHeader(AUTHORIZATION, BEARER + accessToken);
-        get.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+        get.setHeader(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        return get;
+    }
+
+    public HttpRequestBase findAccountByQuery(SalesforceObject salesforceObject, String query){
+        String accessToken = salesforceObject.getAccessToken();
+        String salesforceInstanceUrl = salesforceObject.getInstanceUrl();
+
+        String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
+        final String baseUrl = salesforceInstanceUrl + SALESFORCE_QUERY_URL + encodedQuery;
+
+        HttpGet get = new HttpGet(baseUrl);
+        get.setHeader(AUTHORIZATION, BEARER + accessToken);
+        get.setHeader(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         return get;
     }
 
@@ -57,7 +72,7 @@ public class SalesforceConnector {
 
         HttpDelete delete = new HttpDelete(url + "/" + accountId);
         delete.setHeader(AUTHORIZATION, BEARER + accessToken);
-        delete.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+        delete.setHeader(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         return delete;
     }
 
@@ -67,19 +82,19 @@ public class SalesforceConnector {
 
         String url = salesforceInstanceUrl + SALESFORCE_ACCOUNT_URL;
 
-        HttpPatch patch = new HttpPatch(url + "/" + accountId);
+        HttpPatch patch = new HttpPatch(url  + accountId);
         patch.setHeader(AUTHORIZATION, BEARER + accessToken);
-        patch.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+        patch.setHeader(CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        var accountData = createOrUpdateAccount(account);
 
+        var accountData = createAccount(account);
         String json = objectMapper.writeValueAsString(accountData);
         patch.setEntity(new StringEntity(json));
         return patch;
     }
 
-    private Map<String,String> createOrUpdateAccount(Account account){
+    private Map<String,String> createAccount(Account account){
 
         var accountData = new HashMap<String,String>();
 

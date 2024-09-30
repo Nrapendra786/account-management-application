@@ -6,20 +6,29 @@ import com.nrapendra.account.exceptions.AccountException;
 import com.nrapendra.account.models.Account;
 import com.nrapendra.account.salesforce.SalesforceConnector;
 import com.nrapendra.account.salesforce.SalesforceObject;
-import com.nrapendra.account.utils.ErrorMessages;
+import com.nrapendra.account.exceptions.ErrorMessages;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
+import static com.nrapendra.account.exceptions.ErrorMessages.BAD_REQUEST;
 import static com.nrapendra.account.utils.AppUtil.*;
 
 @Service
@@ -53,6 +62,18 @@ public class AccountSalesforceService {
         }
     }
 
+    public String findAccountByName(String name) throws IOException, URISyntaxException {
+        SalesforceObject salesforceObject = authService.getSalesforceObject();
+        String query = "SELECT Id,Name from ACCOUNT where Name='" + name + "'";
+
+        var get = salesforceConnector.findAccountByQuery(salesforceObject, query);
+        try (CloseableHttpClient client = HttpClients.createDefault();
+             CloseableHttpResponse response = client.execute(get)) {
+            checkResponseCode(response.getStatusLine().getStatusCode());
+            return EntityUtils.toString(response.getEntity());
+        }
+    }
+
     public String updateAccount(String accountId, Account account) throws IOException {
         SalesforceObject salesforceObject = authService.getSalesforceObject();
         var patch = salesforceConnector.updateAccount(salesforceObject, accountId, account);
@@ -70,7 +91,7 @@ public class AccountSalesforceService {
 
         try (CloseableHttpClient client = HttpClients.createDefault();
              CloseableHttpResponse response = client.execute(delete)) {
-            int responseCode =response.getStatusLine().getStatusCode();
+            int responseCode = response.getStatusLine().getStatusCode();
             checkResponseCode(responseCode);
             return responseMessage(accountId, response.getStatusLine().getStatusCode(), DELETE_REQUEST);
         }
@@ -80,7 +101,7 @@ public class AccountSalesforceService {
         if (responseCode == HttpStatus.NOT_FOUND.value()) {
             throw new AccountException(ErrorMessages.NOT_FOUND);
         } else if (responseCode >= HttpStatus.BAD_REQUEST.value() && responseCode <= FOUR_NINETY_NINE) {
-            throw new AccountException(ErrorMessages.BAD_REQUEST);
+            throw new AccountException(BAD_REQUEST);
         } else if (responseCode >= HttpStatus.INTERNAL_SERVER_ERROR.value() && responseCode <= FIVE_NINETY_NINE) {
             throw new AccountException(ErrorMessages.INTERNAL_SERVER);
         }
@@ -93,7 +114,7 @@ public class AccountSalesforceService {
         map.put(STATUS_CODE, String.valueOf(statusCode));
 
         try {
-            return  new ObjectMapper().writeValueAsString(map);
+            return new ObjectMapper().writeValueAsString(map);
         } catch (JsonProcessingException ex) {
             log.error(ex.getMessage());
             throw new RuntimeException(ex.getMessage());

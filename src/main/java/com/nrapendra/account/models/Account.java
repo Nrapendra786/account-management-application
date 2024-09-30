@@ -3,8 +3,6 @@ package com.nrapendra.account.models;
 import lombok.*;
 
 @Data
-@Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

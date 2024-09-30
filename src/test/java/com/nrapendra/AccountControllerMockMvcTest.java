@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.TransactionManager;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -37,7 +36,7 @@ public class AccountControllerMockMvcTest {
     @MockBean
     private AccountLocalDBService accountLocalDBService;
 
-    private static final String ACCOUNT_URL = "/api/salesforce/accounts";
+    private static final String ACCOUNT_URL = "/api/v1/accounts";
 
     @Test
     public void testCreateAccount() throws Exception {
@@ -78,11 +77,6 @@ public class AccountControllerMockMvcTest {
         mockMvc.perform(MockMvcRequestBuilders
                         .put(ACCOUNT_URL + "/{id}", 1)
                         .param("name", "test")
-//                        .param("accountNumber", "1324435")
-//                        .param("phoneNumber", "89776566")
-//                        .param("billingCity", "ZH")
-//                        .param("billingCountry", "CH")
-//                        .param("industry", "Transportation")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -110,6 +104,25 @@ public class AccountControllerMockMvcTest {
                 .andExpect(jsonPath("$.billingCity").value("Zurich"))
                 .andExpect(jsonPath("$.billingCountry").value("Switzerland"));
     }
+
+    @Test
+    public void testGetAccountByName() throws Exception {
+        //given
+        String name = "ABC International";
+
+        //when
+        when(accountService.findAccountByName(name)).thenReturn(asJsonString(account()));
+
+        //then
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(ACCOUNT_URL + "/parameter/{name}", name)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value(name));
+    }
+
 
     @Test
     public void testDeleteAccount() throws Exception {
