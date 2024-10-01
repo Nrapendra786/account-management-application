@@ -54,10 +54,11 @@
     
 ## Testing the API Endpoints:
      1) Create Account: POST /api/salesforce/accounts?name=TestAccount
-     2) Get Account: GET /api/salesforce/accounts/{id}
-     3) Update Account: PUT /api/salesforce/accounts/{id}?name=NewAccountName
-     4) Delete Account: DELETE /api/salesforce/accounts/{id}
-     5) This is a basic structure for integrating Salesforce with a Spring Boot application. You can expand it further to handle additional objects, handle pagination, add logging, and manage error handling.
+     2) Get Account: GET /api/salesforce/accounts/{id}2) 
+     3) Get Account By Name: GET /api/salesforce/accounts/{name}
+     4) Update Account: PUT /api/salesforce/accounts/{id}?name=NewAccountName
+     5) Delete Account: DELETE /api/salesforce/accounts/{id}
+     6) This is a basic structure for integrating Salesforce with a Spring Boot application. You can expand it further to handle additional objects, handle pagination, add logging, and manage error handling.
 
 Please Note:
 use the following URL to view your account in salesforce : 
