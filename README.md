@@ -53,13 +53,13 @@
     user will be prompted for username/password, once user provided correct username and correct password then user will be forwarded  
     
 ## Testing the API Endpoints:
-     1) Create Account: POST /api/salesforce/accounts?name=TestAccount
-     2) Get Account: GET /api/salesforce/accounts/{id}2) 
-     3) Get Account By Name: GET /api/salesforce/accounts/{name}
-     4) Update Account: PUT /api/salesforce/accounts/{id}?name=NewAccountName
-     5) Delete Account: DELETE /api/salesforce/accounts/{id}
-     6) This is a basic structure for integrating Salesforce with a Spring Boot application. You can expand it further to handle additional objects, handle pagination, add logging, and manage error handling.
-
+     1) Create Account: POST /api/v1/accounts?name=TestAccount
+     2) Get Account: GET /api/v1/accounts/{id}2) 
+     3) Get Account By Name: GET /api/v1/accounts/{name}
+     4) Update Account: PUT /api/v1/accounts/{id}?name=NewAccountName
+     5) Delete Account: DELETE /api/v1/accounts/{id}
+     6) Get ApplicationData: GET /api/v1/accounts/{name}
+     This is a basic structure for integrating Salesforce with a Spring Boot application. You can expand it further to handle additional objects, handle pagination, add logging, and manage error handling.
 Please Note:
 use the following URL to view your account in salesforce : 
 https://[YOUR INSTANCE URL]/lightning/o/Account/list
