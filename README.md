@@ -58,7 +58,7 @@
      3) Get Account By Name: GET /api/v1/accounts/{name}
      4) Update Account: PUT /api/v1/accounts/{id}?name=NewAccountName
      5) Delete Account: DELETE /api/v1/accounts/{id}
-     6) Get ApplicationData: GET /api/v1/accounts/{name}
+     6) Get ApplicationData: GET /api/v1/application/{name}
      This is a basic structure for integrating Salesforce with a Spring Boot application. You can expand it further to handle additional objects, handle pagination, add logging, and manage error handling.
 Please Note:
 use the following URL to view your account in salesforce : 
