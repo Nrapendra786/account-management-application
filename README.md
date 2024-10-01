@@ -54,7 +54,7 @@
     
 ## Testing the API Endpoints:
      1) Create Account: POST /api/v1/accounts?name=TestAccount
-     2) Get Account: GET /api/v1/accounts/{id}2) 
+     2) Get Account: GET /api/v1/accounts/{id}
      3) Get Account By Name: GET /api/v1/accounts/{name}
      4) Update Account: PUT /api/v1/accounts/{id}?name=NewAccountName
      5) Delete Account: DELETE /api/v1/accounts/{id}
