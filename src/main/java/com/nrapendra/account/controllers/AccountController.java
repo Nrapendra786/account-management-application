@@ -1,6 +1,7 @@
 package com.nrapendra.account.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nrapendra.account.exceptions.AccountException;
 import com.nrapendra.account.exceptions.ErrorMessages;
@@ -49,7 +50,6 @@ public class AccountController extends OpenAPIController {
                 .billingCity(billingCity)
                 .billingCountry(billingCountry)
                 .industry(industry).build();
-
         var response = accountService.createAccount(account);
         var httpStatus = HttpStatus.CREATED;
         var request = account.toString();
@@ -94,7 +94,7 @@ public class AccountController extends OpenAPIController {
 
     @GetMapping("/parameter/{name}")
     public ResponseEntity<?> findAccountByName(@PathVariable String name) throws IOException {
-        String response = null;
+        String response;
         try {
             response = accountService.findAccountByName(name);
         } catch (URISyntaxException e) {
@@ -106,13 +106,17 @@ public class AccountController extends OpenAPIController {
         return new ResponseEntity<>(response, httpStatus);
     }
 
-    private Map mapResponseToMap(String json) throws JsonProcessingException {
-        return new ObjectMapper().readValue(json, Map.class);
+    private JsonNode mapResponseToJsonNode(String json) throws JsonProcessingException {
+        return new ObjectMapper().readValue(json, JsonNode.class);
     }
 
     private void saveToLocalDB(String request, String response, HttpStatus httpStatus) throws JsonProcessingException {
         long positiveUniqueUUID = Math.abs(UUID.randomUUID().getLeastSignificantBits());
-        var applicationData = ApplicationData.builder().id(positiveUniqueUUID).request(request).response(mapResponseToMap(response)).httpStatusCode(httpStatus.value()).build();
+        JsonNode jsonNode = mapResponseToJsonNode(response);
+
+        Map<Object,Object> map = new ObjectMapper().convertValue(jsonNode, Map.class);
+
+        var applicationData = ApplicationData.builder().id(positiveUniqueUUID).request(request).response(map).httpResponseCode(httpStatus.value()).build();
         accountLocalDBService.saveApplicationDataToRepository(applicationData);
     }
 }

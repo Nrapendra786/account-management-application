@@ -2,11 +2,13 @@ package com.nrapendra.account.models;
 
 import lombok.*;
 
+import java.io.Serializable;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
+public class Account implements Serializable {
 
     private String name;
     private String accountNumber;

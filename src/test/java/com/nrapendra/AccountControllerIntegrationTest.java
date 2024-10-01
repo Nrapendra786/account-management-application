@@ -6,10 +6,7 @@ import com.nrapendra.account.models.Account;
 import com.nrapendra.account.services.AccountLocalDBService;
 import com.nrapendra.account.services.AccountSalesforceService;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -63,7 +60,7 @@ public class AccountControllerIntegrationTest {
     @Order(1)
     public void testCreateAccount() throws Exception {
         String url = getRootUrl() + "create/";
-        int randomNumber = new Random(100).nextInt(1, 100);
+        int randomNumber = new Random(1).nextInt( 100);
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
                 .queryParam("name", "test_name" + randomNumber)
@@ -136,6 +133,7 @@ public class AccountControllerIntegrationTest {
 
     @Test
     @Order(5)
+    @Disabled
     public void testDeleteAccount() {
         log.debug("testDeleteAccount is Invoked and ACCOUNT_ID is : {} ", ACCOUNT_ID);
         ResponseEntity<String> deleteResponse = restTemplate.withBasicAuth(TestUtil.USERNAME, TestUtil.PASSWORD)

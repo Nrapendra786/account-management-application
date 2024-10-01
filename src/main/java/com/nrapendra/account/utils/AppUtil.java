@@ -7,8 +7,6 @@ public class AppUtil {
     public static final String SALESFORCE_ACCOUNT_URL="/services/data/v57.0/sobjects/Account/";
     public static final String SALESFORCE_QUERY_URL="/services/data/v52.0/query/?q=";
 
-    public static final String COLON = ":";
-
     public static final String ID = "id";
     public static final String MESSAGE = "message";
     public static final String STATUS_CODE = "statusCode";
