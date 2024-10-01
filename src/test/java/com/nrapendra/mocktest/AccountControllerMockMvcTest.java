@@ -1,4 +1,4 @@
-package com.nrapendra;
+package com.nrapendra.mocktest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nrapendra.account.controllers.AccountController;

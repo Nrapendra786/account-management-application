@@ -1,10 +1,12 @@
-package com.nrapendra;
+package com.nrapendra.integrationtest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nrapendra.AccountApplication;
 import com.nrapendra.account.models.Account;
 import com.nrapendra.account.services.AccountLocalDBService;
 import com.nrapendra.account.services.AccountSalesforceService;
+import com.nrapendra.helpers.TestUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;

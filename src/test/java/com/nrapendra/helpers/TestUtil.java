@@ -1,4 +1,4 @@
-package com.nrapendra;
+package com.nrapendra.helpers;
 public class TestUtil {
 
     public static final String USERNAME="test";

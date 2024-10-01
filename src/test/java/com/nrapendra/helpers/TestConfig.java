@@ -1,4 +1,4 @@
-package com.nrapendra;
+package com.nrapendra.helpers;
 
 
 import com.nrapendra.account.config.AppConfig;
