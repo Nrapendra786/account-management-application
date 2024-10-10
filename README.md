@@ -50,7 +50,7 @@
 
 ## Swagger-ui:
     swagger-ui is integrated into project, once the application is started, then just type http://[hostname]:[portnumber]/swagger-ui/index.html on browser.
-    user will be prompted for username/password, once user provided correct username and correct password then user will be forwarded  
+    user will be prompted for username/password, once user provided correct username and correct password then user will be forwarded to swagger-ui 
     
 ## Testing the API Endpoints:
      1) Create Account: POST /api/v1/accounts?name=TestAccount
