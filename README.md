@@ -2,7 +2,7 @@
 # Use Case: Salesforce Account Management API
 
 # Scenario:
-  This application is created using Java, Spring Boot and Salesforce application that allows users to create, read by id, read by name, update, and delete
+  This application is created using Java, Spring Boot and Salesforce application that allows users to create, read, update, and delete
   Salesforce/LocalDB Accounts through a RESTful API. The API will authenticate with Salesforce using OAuth 2.0 and interact 
   with the Salesforce REST API to manage account records.
 
