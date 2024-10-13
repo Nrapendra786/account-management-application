@@ -3,16 +3,16 @@
 
 # Scenario:
   This application is created using Java, Spring Boot and Salesforce application that allows users to create, read, update, and delete
-  Salesforce/LocalDB Accounts through a RESTful API. The API will authenticate with Salesforce using OAuth 2.0 and interact 
+  Salesforce Accounts through a RESTful API. The API will authenticate with Salesforce using OAuth 2.0 and interact 
   with the Salesforce REST API to manage account records.
 
 # Features:
 1) Authenticate with Salesforce using OAuth 2.0.
 2) CRUD operations on Salesforce Account objects:
-    1) Create: Add a new Account in Salesforce/LocalDB.
-    2) Read: Retrieve Account details from Salesforce/LocalDB.
-    3) Update: Modify an existing Account in Salesforce/LocalDB.
-    4) Delete: Remove an Account from Salesforce/LocalDB.
+    1) Create: Add a new Account in Salesforce.
+    2) Read: Retrieve Account details from Salesforce.
+    3) Update: Modify an existing Account in Salesforce.
+    4) Delete: Remove an Account from Salesforce.
 
 # Required Setup:
     1) Salesforce Connected App: You need to create a Connected App in Salesforce to obtain the Client ID and Client Secret.
