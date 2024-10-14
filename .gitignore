@@ -4,6 +4,12 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# some unimporant files
+.env
+*-test.properties
+*.sh
+
+
 ### STS ###
 .apt_generated
 .classpath

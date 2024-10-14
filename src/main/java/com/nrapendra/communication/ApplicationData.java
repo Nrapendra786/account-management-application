@@ -20,10 +20,6 @@ import java.util.Map;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-//@Converts({
-//        @Convert(attributeName = "json", converter = JsonStringType.class),
-//        @Convert(attributeName = "jsonb", converter = JsonBinaryType.class)
-//})
 public class ApplicationData implements Serializable {
 
     @Id

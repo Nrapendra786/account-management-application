@@ -1,4 +1,4 @@
-package com.nrapendra.account.salesforce;
+package com.nrapendra.salesforce;
 
 import lombok.Data;
 

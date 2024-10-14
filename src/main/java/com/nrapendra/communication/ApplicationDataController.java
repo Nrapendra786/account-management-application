@@ -19,8 +19,8 @@ public class ApplicationDataController {
     private final ApplicationDataRepository applicationDataRepository;
 
     @GetMapping("/")
-    public ResponseEntity<?> getApplicationData() throws IOException {
-        log.info("getApplicationData is Invoked");
+    public ResponseEntity<?> getApplicationData() {
+        log.info("GET APPLICATION DATA IS INVOKED");
         var response = applicationDataRepository.findByIdAndHttpStatusCodeRequestAndResponse();
         var httpStatus = HttpStatus.OK;
         return new ResponseEntity<>(response,httpStatus);

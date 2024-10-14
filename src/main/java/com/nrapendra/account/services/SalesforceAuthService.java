@@ -3,7 +3,7 @@ package com.nrapendra.account.services;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nrapendra.account.config.AppConfig;
-import com.nrapendra.account.salesforce.SalesforceObject;
+import com.nrapendra.salesforce.SalesforceObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
