@@ -1,4 +1,4 @@
-package com.nrapendra.applicationdata;
+package com.nrapendra.communication;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +20,7 @@ public class ApplicationDataController {
 
     @GetMapping("/")
     public ResponseEntity<?> getApplicationData() throws IOException {
+        log.info("getApplicationData is Invoked");
         var response = applicationDataRepository.findByIdAndHttpStatusCodeRequestAndResponse();
         var httpStatus = HttpStatus.OK;
         return new ResponseEntity<>(response,httpStatus);

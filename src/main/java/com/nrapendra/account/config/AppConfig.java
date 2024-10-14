@@ -1,9 +1,17 @@
 package com.nrapendra.account.config;
 
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
+@Component
 @ConfigurationProperties(prefix = "salesforce")
-public record AppConfig(String username, String password, String clientId,
-                        String clientSecret, String tokenUrl, String securityToken) {
-
+@Data
+public class AppConfig {
+    private String username;
+    private String password;
+    private String clientId;
+    private String clientSecret;
+    private String tokenUrl;
+    private String securityToken;
 }

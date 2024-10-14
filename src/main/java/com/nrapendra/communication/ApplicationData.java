@@ -1,7 +1,7 @@
-package com.nrapendra.applicationdata;
+package com.nrapendra.communication;
 
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import com.vladmihalcea.hibernate.type.json.JsonStringType;
+//import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+//import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,10 +20,10 @@ import java.util.Map;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Converts({
-        @Convert(attributeName = "json", converter = JsonStringType.class),
-        @Convert(attributeName = "jsonb", converter = JsonBinaryType.class)
-})
+//@Converts({
+//        @Convert(attributeName = "json", converter = JsonStringType.class),
+//        @Convert(attributeName = "jsonb", converter = JsonBinaryType.class)
+//})
 public class ApplicationData implements Serializable {
 
     @Id

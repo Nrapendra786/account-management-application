@@ -3,12 +3,13 @@ package com.nrapendra.account.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nrapendra.account.config.AppConfig;
 import com.nrapendra.account.exceptions.AccountException;
 import com.nrapendra.account.exceptions.ErrorMessages;
 import com.nrapendra.account.models.Account;
 import com.nrapendra.account.services.AccountLocalDBService;
 import com.nrapendra.account.services.AccountSalesforceService;
-import com.nrapendra.applicationdata.ApplicationData;
+import com.nrapendra.communication.ApplicationData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,8 @@ public class AccountController extends OpenAPIController {
 
     private final AccountLocalDBService accountLocalDBService;
 
+
+
     @PostMapping("/create/")
     public ResponseEntity<?> createAccount(@RequestParam("name") String name,
                                            @RequestParam("accountNumber") String accountNumber,
@@ -42,6 +45,7 @@ public class AccountController extends OpenAPIController {
                                            @RequestParam("billingCountry") String billingCountry,
                                            @RequestParam("industry") String industry
     ) throws IOException {
+        log.info("createAccount is Invoked");
         var account = Account.builder()
                 .name(name)
                 .accountNumber(accountNumber)
@@ -59,6 +63,7 @@ public class AccountController extends OpenAPIController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getAccount(@PathVariable String id) throws IOException {
+        log.info("getAccountById is Invoked");
         var response = accountService.findAccountById(id);
         var httpStatus = HttpStatus.OK;
         saveToLocalDB(id, response, httpStatus);
@@ -69,11 +74,12 @@ public class AccountController extends OpenAPIController {
     public ResponseEntity<?> updateAccount(@PathVariable String id,
                                            @RequestParam("name") String name
     ) throws IOException {
+        log.info("updateAccount is Invoked");
         var account = Account.builder()
                 .name(name)
-                .accountNumber("TDFDGHHD")
-                .industry("TJDJDKDK")
-                .phoneNumber("9494040404")
+                .accountNumber("TEST_ACC")
+                .industry("TEST_INDUSTRY")
+                .phoneNumber("+9494040404")
                 .billingCity("ZH")
                 .billingCountry("Switzerland")
                 .industry("TSP").build();
@@ -86,6 +92,7 @@ public class AccountController extends OpenAPIController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAccount(@PathVariable String id) throws IOException {
+        log.info("deleteAccount is Invoked");
         var response = accountService.deleteAccount(id);
         var httpStatus = HttpStatus.ACCEPTED;
         saveToLocalDB(id, response, httpStatus);
@@ -94,6 +101,7 @@ public class AccountController extends OpenAPIController {
 
     @GetMapping("/parameter/{name}")
     public ResponseEntity<?> findAccountByName(@PathVariable String name) throws IOException {
+        log.info("findAccountByName is Invoked");
         String response;
         try {
             response = accountService.findAccountByName(name);

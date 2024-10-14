@@ -135,7 +135,6 @@ public class AccountControllerIntegrationTest {
 
     @Test
     @Order(5)
-    @Disabled
     public void testDeleteAccount() {
         log.debug("testDeleteAccount is Invoked and ACCOUNT_ID is : {} ", ACCOUNT_ID);
         ResponseEntity<String> deleteResponse = restTemplate.withBasicAuth(TestUtil.USERNAME, TestUtil.PASSWORD)
